@@ -31,11 +31,11 @@ dog_title = db.Table('dog_title',
     db.Column('title_id',db.Integer, db.ForeignKey('title.id'))
 )
 
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.Unicode)
-    password = db.Column(db.Unicode)
-    email = db.Column(db.String(128))
+# class User(db.Model, UserMixin):
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.Unicode)
+#     password = db.Column(db.Unicode)
+#     email = db.Column(db.String(128))
 
 class Body(db.Model):
     __tablename__ = 'body'
