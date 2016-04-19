@@ -1,0 +1,38 @@
+COMMON: &common
+  APP_NAME: Leglifter
+  DEBUG: False
+  JWT_EXPIRATION_DELTA: 30
+  JWT_AUTH_URL_RULE: /api/v1/auth
+  SECURITY_REGISTERABLE: True
+  SECURITY_RECOVERABLE: True
+  SECURITY_TRACKABLE: True
+  SECURITY_PASSWORD_HASH: sha512_crypt
+  SQLALCHEMY_TRACK_MODIFICATIONS: False
+  TESTING: False
+  URL_PREFIX: /api/v1
+
+DEVELOPMENT: &development
+  <<: *common
+  DEBUG: True
+  FLASK_BOTO_SQS:
+    region: us-west-2
+    aws_access_key_id: AKIAIU4FB5J2CSPK46GA
+    aws_secret_access_key: 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
+    queues:
+      registration: reg_q
+      litter: litter_q
+      member: member_q
+  SECRET_KEY: eing7eiCe8ooTeemaivoo1ceg
+  SECURITY_PASSWORD_SALT: zookeeghee9zee2Lee2vahh5z
+  SQLALCHEMY_DATABASE_URI: sqlite:///data.sqlite
+  TESTING: True
+
+PRODUCTION: &production
+  <<: *common
+  SECRET_KEY: eing7eiCe8ooTeemaivoo1ceg
+  SECURITY_PASSWORD_SALT: zookeeghee9zee2Lee2vahh5z
+  SQLALCHEMY_DATABASE_URI: sqlite:///data.sqlite
+  FLASK_BOTO_SQS:
+    region: us-west-2
+    aws_access_key_id: AKIAIU4FB5J2CSPK46GA
+    aws_secret_access_key: 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

@@ -19,10 +19,19 @@ class User(db.Model, UserMixin):
     last_login_ip = db.Column(db.String(255))
     current_login_ip = db.Column(db.String(255))
     login_count = db.Column(db.Integer)
+    real_name = db.Column(db.String(255))
 
     def __repr__(self):
         return '<models.User[email=%s]>' % self.email
 
+class Member(db.Model):
+    __tablename__ = 'member'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id',use_alter=True,name="user_fk"))
+    user = db.relationship(User, uselist=False, post_update=True)
+    join_date = db.Column(db.Date)
+    expire_date = db.Column(db.Date)
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -30,15 +39,6 @@ class Role(db.Model, RoleMixin):
     description = db.Column(db.String(255))
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-
-
-class SomeStuff(db.Model):
-    __tablename__ = 'somestuff'
-    id = db.Column(db.Integer, primary_key=True)
-    data1 = db.Column(db.Integer)
-    data2 = db.Column(db.String(10))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    user = db.relationship(User, lazy='joined', join_depth=1, viewonly=True)
 
 dog_clearance = db.Table('dog_clearance',
     db.Column('dog_id',db.Integer, db.ForeignKey('dog.id')),
@@ -90,6 +90,8 @@ class Title(db.Model):
 class Dog(db.Model):
     __tablename__ = 'dog'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    owner = db.relationship(User, lazy='joined', join_depth=1, viewonly=True)
     altered = db.Column(db.Boolean)
     bg_image = db.Column(db.String)
     call_name = db.Column(db.String)

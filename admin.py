@@ -6,7 +6,7 @@ from flask.ext.security import logout_user
 
 from application import app
 from database import db
-from models import User, Role, SomeStuff
+from models import User, Role
 
 
 class LogoutView(BaseView):
@@ -42,6 +42,6 @@ def init_admin():
     admin = Admin(app)
     admin.add_view(UserModelView(User, db.session, category='Auth'))
     admin.add_view(AdminModelView(Role, db.session, category='Auth'))
-    admin.add_view(AdminModelView(SomeStuff, db.session))
+    #admin.add_view(AdminModelView(SomeStuff, db.session))
     admin.add_view(LogoutView(name='Logout', endpoint='logout'))
     admin.add_view(LoginView(name='Login', endpoint='login'))
